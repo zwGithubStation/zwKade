@@ -229,7 +229,9 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binaryTree1.png)
 
-对于上面一棵高度为3的二叉树来说
+在上面一棵高度为3的二叉树中，画圈的叶子节点用来代表节点ID。我们可以说所有的节点ID和数据项的key值都要从[0,1,...2<sub>3<sub>-1]
+
+
 
 ### Defining Distance for Keys in a Binary Trie
 

@@ -227,7 +227,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 我们关注的是一个二叉前缀树(Trie,前缀树/字典树)上的分区。
 
-
+[Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binaryTree1.png)
 
 对于上面一棵高度为3的二叉树来说
 

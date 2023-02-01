@@ -84,6 +84,6 @@ DHT 算法是这样规定的：如果一个文件计算出一个哈希值，则I
 
 什么叫和哈希值接近呢？例如只修改了最后一位，就很接近；修改了倒数 2 位，也不远；修改了倒数 3 位，也可以接受。总之，凑齐了规定的 N 这个数就行。
 
-!\[Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/80ecacb45587d201cbb9a08c31476d27.webp)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/80ecacb45587d201cbb9a08c31476d27.webp)
 
 刚才那个图里，文件 1 通过哈希运算，得到匹配 ID 的 DHT node 为 node C，当然还会有其他的，我这里没有画出来。所以，node C 有责任知道文件 1 的存放地址，虽然 node C 本身没有存放文件 1。同理，文件 2 通过哈希运算，得到匹配 ID 的 DHT node 为 node E，但是 node D 和 E 的 ID 值很近，所以 node D 也知道。当然，文件 2 本身没有必要一定在 node D 和 E 里，但是碰巧这里就在 E 那有一份。接下来一个新的节点 node new 上线了。如果想下载文件 1，它首先要加入 DHT 网络，如何加入呢？在这种模式下，种子.torrent 文件里面就不再是 tracker 的地址了，而是一个 list 的 node 的地址，而所有这些 node 都是已经在 DHT 网络里面的。当然随着时间的推移，很可能有退出的，有下线的，但是我们假设，不会所有的都联系不上，总有一个能联系上。node new 只要在种子里面找到一个 DHT node，就加入了网络。node new 会计算文件 1 的哈希值，并根据这个哈希值了解到，和这个哈希值匹配，或者很接近的 node 上知道如何下载这个文件，例如计算出来的哈希值就是 node C。但是 node new 不知道怎么联系上 node C，因为种子里面的 node 列表里面很可能没有 node C

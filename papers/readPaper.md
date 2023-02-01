@@ -215,11 +215,21 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 在如上的设定下，PUT/GET操作显得简单许多，只需要找到距离对应key值最近的节点，在该节点上进行存取操作即可。这让我们的问题变为：**给定一个key值，如何找到距离最近的节点？**
 
+实现map所用的底层数据结构通常有两种：**哈希表(a hash table)或者是搜索树(a search tree)**。我们首选了解一下hash表如何在map的key值空间上实现距离测算。
+
+#### 使用hash表实现分区(Partitions): Chord
+
+可参考该链接的介绍：https://zhuanlan.zhihu.com/p/53711866
+
+暂不做涉及。
+
+#### 使用搜索树实现分区(Partitions): Kademlia
+
+我们关注的是一个二叉前缀树(Trie,前缀树/字典树)上的分区。
 
 
-#### Hash Table Partitions: Chord
 
-#### Search Tree Partitions: Kademlia
+对于上面一棵高度为3的二叉树来说
 
 ### Defining Distance for Keys in a Binary Trie
 

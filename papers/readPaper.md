@@ -112,7 +112,7 @@ DHT 算法是这样规定的：如果一个文件计算出一个哈希值，则I
 
   更清晰的一种表述来说，整个网络空间可以被表示成一颗二叉树，而网络中的节点都被当作二叉树的叶子，并且每一个节点的位置都由其 ID 值的最短前缀唯一的确定，如下图：
 
-  ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binarySearchInKademlia.webp)
+  ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binaryTree.png)
 
 #### DHT 网络中”朋友圈“的按距分桶
 

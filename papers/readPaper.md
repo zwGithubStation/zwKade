@@ -305,6 +305,8 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucketExamples.png)
 
+我们将最终应该获取的节点ID记为`id<sub>2</sub>`
+
 ### Supporting Dynamic Leaves and Joins
 
 

@@ -311,6 +311,8 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 **对于节点c来说，如果id<sub>global</sub>也在c的某层k-bucket内，则该k-bucket就是id<sub>close</sub>所在的k-bucket**。
 
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucket-prove.png)
+
 This invariant over each lookup will guarantee that we will eventually find idglobalidglobal by having us increase the length of our common prefix with idglobalidglobal in each lookup iteration. Since there are only log(n)log(n) unique bits in idglobalidglobal, our lookup runtime and number of hops should take expected time O(log(n))O(log(n)).
 
 ### Supporting Dynamic Leaves and Joins

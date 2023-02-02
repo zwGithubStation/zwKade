@@ -309,9 +309,9 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 在“寻址策略”中的任何一次查询节点过程(假设向节点c发起了查询，请求c查询离目标数据项距离最近的节点ID)中，节点c返回的下一层查询节点ID(标记为id<sub>close</sub>)满足如下性质：
 
-对于节点c来说，如果id<sub>global</sub>也在c的某层k-bucket内，则该k-bucket就是id<sub>close</sub>所在的k-bucket。
+**对于节点c来说，如果id<sub>global</sub>也在c的某层k-bucket内，则该k-bucket就是id<sub>close</sub>所在的k-bucket**。
 
-
+This invariant over each lookup will guarantee that we will eventually find idglobalidglobal by having us increase the length of our common prefix with idglobalidglobal in each lookup iteration. Since there are only log(n)log(n) unique bits in idglobalidglobal, our lookup runtime and number of hops should take expected time O(log(n))O(log(n)).
 
 ### Supporting Dynamic Leaves and Joins
 

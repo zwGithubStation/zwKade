@@ -380,9 +380,19 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 当某一节点`current`获取到一个新的节点`new`的信息时，可以对自己所存储的数据项`data`进行测算，如果`XOR(data.keyID, current.ID) > XOR(data.keyID, new.ID)`，则`current`可以向`new`发起PUT(data)的操作。这样实现数据项往距离自己最近的节点上存储的初衷。
 
-### Piecing Together the DHT
+### RPCs
+
+随着主要流程的梳理后，现在可以正式定义Kademlia中几个必要的RPC。
+
+**PING**
 
 
+
+FIND_COMP(id)
+
+FIND_VALUE(key)
+
+STORE
 
 ### Conclusion
 

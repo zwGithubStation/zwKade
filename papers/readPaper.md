@@ -279,7 +279,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 **节点如何通过其他节点信息，找到指定key值的数据项。**
 
-我们有如下的假定：
+我们有如下的**<u>目标</u>**：
 
 - **尽可能的找当前能找到的距离目标数据项最近的节点ID**
 
@@ -300,7 +300,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
    b. 将D的信息更新至自己的路由表中，对D发起步骤2一样的请求，回到步骤2
 
-我们假设：
+我们有如下的**<u>假设</u>**：
 
 1. **路由表中的寻址信息都是正确合法的**
 2. **如果当前节点的每层k-bucket的范围内真实存在节点，该层k-bucket至少包含一个节点信息(k-bucket的构造如下图所示)**
@@ -325,9 +325,13 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 通过上图的图示也可以很好的理解。
 
-通过引入LCP(id<sub>global</sub>, id<sub>close</sub>)的概念，我们在查询目标id<sub>global</sub>的路上，至少前进一个
+通过引入LCP(id<sub>global</sub>, id<sub>close</sub>)的概念，在理想情况下(也即在上面假设1，2成立的条件下)，我们针对查询目标id<sub>global</sub>向中间节点ID<sub>pre</sub>进行的查询所获得新的节点ID<sub>suc</sub>，都应满足：
 
-This invariant over each lookup will guarantee that we will eventually find idglobalidglobal by having us increase the length of our common prefix with idglobalidglobal in each lookup iteration. Since there are only log(n)log(n) unique bits in idglobalidglobal, our lookup runtime and number of hops should take expected time O(log(n))O(log(n)).
+> **len(LCP(id<sub>global</sub>, ID<sub>suc</sub>)) - len(LCP(id<sub>global</sub>, ID<sub>pre</sub>)) &ge; 1**
+
+直白的说，每次都应该在与id<sub>global</sub>前缀一致的路上，至少前进一步。**在整个节点规模为N的网络中，可以保证规模在log(N)的查询次数下获取到id<sub>global</sub>。**
+
+从**“自上而下遍历前缀树”**的角度考虑也许更加易于理解。每次的查询保证遍历可以至少下沉一层。在ID的空间为160bits的设定下，不超过160次查询即可找到id<sub>global(当然我们希望这棵树能够尽可能的达到完全二叉树那样的平衡，这依赖节点ID的随机化生成)。
 
 ### Supporting Dynamic Leaves and Joins
 

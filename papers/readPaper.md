@@ -300,8 +300,8 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 我们假设：
 
-1. 路由表中的寻址信息都是正确合法的
-2. 如果当前节点的每层k-bucket的范围内真实存在节点，该层k-bucket至少包含一个节点信息(k-bucket的构造如下图所示)
+1. **路由表中的寻址信息都是正确合法的**
+2. **如果当前节点的每层k-bucket的范围内真实存在节点，该层k-bucket至少包含一个节点信息(k-bucket的构造如下图所示)**
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucketExamples.png)
 
@@ -319,7 +319,11 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ### Walkthrough of a Kademlia Network Genesis
 
+
+
 ### Piecing Together the DHT
+
+
 
 ### Conclusion
 

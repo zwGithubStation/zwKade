@@ -281,8 +281,10 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 我们有如下的假定：
 
+- **尽可能的找当前能找到的距离目标数据项最近的节点ID**
+
 - **应该在维护尽可能少的节点ID信息前提下，就能相对较快的找到数据所在的节点**
-- 每一步获取一个中间节点信息，都应该至少在定位节点的路上“前进了一个bit”，这样可将算法的运行复杂度控制在`O(log(n))`内[**因为单个ID是160bit表示的一个整数，即相当于将2<sup>160</sup> 个候选，剪枝为160个候选**]
+- 每一步获取一个中间节点信息，都应该至少在定位节点的路上**“前进了一个bit”**，这样可将算法的运行复杂度控制在`O(log(n))`内[**因为单个ID是160bit表示的一个整数，即相当于将2<sup>160</sup> 个候选，剪枝为160个候选**]
 
 因此我们可以考虑有一个**按照某种方式组织的，包含指数级数目的节点ID信息路由表**。
 
@@ -307,11 +309,23 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 我们将最终应该获取的节点ID记为id<sub>global</sub> ，我们可以证明：
 
-在“寻址策略”中的任何一次查询节点过程(假设向节点c发起了查询，请求c查询离目标数据项距离最近的节点ID)中，节点c返回的下一层查询节点ID(标记为id<sub>close</sub>)满足如下性质：
+在“寻址策略”中的任何一次查询节点过程(假设向节点c发起了查询，请求c查询离目标数据项距离最近的节点ID)中，节点c返回的下一层查询节点ID(标记为id<sub>close</sub>)**满足如下性质**：
 
 **对于节点c来说，如果id<sub>global</sub>也在c的某层k-bucket内，则该k-bucket就是id<sub>close</sub>所在的k-bucket**。
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucket-prove.png)
+
+证明很简单，**鉴于我们的算法设定：**
+
+1. 我们设定了每一层bucket内的ID的若干位前缀相同，且每一层bucket之间的前缀不同
+
+2. 我们设定了在bucket内的搜索都力图实现找到bucket中距离目标最近的节点ID
+
+所以如果id<sub>close</sub>所在bucket之外的某一bucket中存在某一节点ID(标记为id<sub>k</sub>)与id<sub>global</sub>的距离相较于id<sub>global</sub>与id<sub>close</sub>之间更近(**更为严格的描述是：id<sub>close</sub> 相较于其他bucket内的任意节点ID信息id<sub>other</sub>，都存在 len(LCP(id<sub>global</sub>, id<sub>close</sub>)) > len(LCP(id<sub>global</sub>, id<sub>other</sub>)) **)，那就与1，2设定相矛盾了(id<sub>k</sub> 与 id<sub>global</sub> 有更为接近的前缀----->设定1成立，但并没有返回id<sub>k</sub> 所在的bucket内的节点ID -----> 与设定2矛盾)。
+
+通过上图的图示也可以很好的理解。
+
+通过引入LCP(id<sub>global</sub>, id<sub>close</sub>)的概念，我们在查询目标id<sub>global</sub>的路上，至少前进一个
 
 This invariant over each lookup will guarantee that we will eventually find idglobalidglobal by having us increase the length of our common prefix with idglobalidglobal in each lookup iteration. Since there are only log(n)log(n) unique bits in idglobalidglobal, our lookup runtime and number of hops should take expected time O(log(n))O(log(n)).
 

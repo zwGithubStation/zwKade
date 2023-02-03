@@ -454,6 +454,6 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ### 优化及扩展
 
-
+详见《readPapers》。
 
 [IPFS Website]:https://ipfs.tech/

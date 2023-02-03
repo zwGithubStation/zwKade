@@ -24,7 +24,9 @@ Each k-bucket is kept sorted by time last seen----least-recently seen node at th
 
 `FIND_VALUE` behaves like `FIND_NODE`, returning `<IP address, UDP port, Node ID>` triples--- with one exception. If the RPC recipient has received a `STORE` PRC for the key, it just returns the stored value.
 
+the most important procedure a Kademlia participant must perform is to locate the `k` closest nodes to some given node ID, we call this procedure a *node lookup*.
 
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png)
 
 ## S/Kademlia
 

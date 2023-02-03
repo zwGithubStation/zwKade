@@ -30,6 +30,8 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_2.png" width="1047px" height="719px">
 
+<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_3.png" width="1047px" height="719px">
+
 ## S/Kademlia
 
 Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure key-based routing S / Kademlia : A Practicable Approach Towards Secure Key-Based Routing.** June, 2014 

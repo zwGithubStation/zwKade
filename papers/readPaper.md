@@ -1,3 +1,35 @@
+## 目录
+
+- [初见](#初见)
+  - [P2P是什么](#p2p是什么)
+  - [种子.torrent文件](#种子torrent文件)
+  - [去中心化网络（DHT）](#去中心化网络dht)
+    - [工作模式](#工作模式)
+    - [DHT 网络中”朋友圈“的按距分桶](#dht-网络中朋友圈的按距分桶)
+    - [DHT 网络寻址”朋友“的方式](#dht-网络寻址朋友的方式)
+    - [DHT 网络中“朋友圈”的维护方式](#dht-网络中朋友圈的维护方式)
+- [Kademlia](#kademlia)
+  - [缘起：以相互借书为例](#缘起以相互借书为例)
+  - [P2P文件共享系统的一种实现: IPFS](#p2p文件共享系统的一种实现-ipfs)
+  - [Distributed Hash Tables](#distributed-hash-tables)
+  - [Map数据的去中心化及有组织(Organized)分区](#map数据的去中心化及有组织organized分区)
+    - [使用hash表实现分区(Partitions): Chord](#使用hash表实现分区partitions-chord)
+    - [使用搜索树实现分区(Partitions): Kademlia](#使用搜索树实现分区partitions-kademlia)
+  - [(完全)二叉前缀树中叶子节点(IDs或者keys)的距离定义](#完全二叉前缀树中叶子节点ids或者keys的距离定义)
+  - [寻址数据项的节点ID路由表](#寻址数据项的节点id路由表)
+  - [k-bucket逐级寻址](#k-bucket逐级寻址)
+  - [支持节点动态离线与上线(Dynamic Leaves and Joins)](#支持节点动态离线与上线dynamic-leaves-and-joins)
+    - [k值的理解](#k值的理解)
+    - [最近节点更新(k-nearest update)](#最近节点更新k-nearest-update)
+    - [k-bucket更新](#k-bucket更新)
+    - [将新的节点信息加入k-bucket的策略](#将新的节点信息加入k-bucket的策略)
+    - [k-bucket更新(bucket refresh)](#k-bucket更新bucket-refresh)
+    - [新节点上线的流程](#新节点上线的流程)
+    - [数据项流向就近节点](#数据项流向就近节点)
+  - [RPCs](#rpcs)
+  - [优化及扩展](#优化及扩展)
+
+
 ## 初见
 
 ### P2P是什么

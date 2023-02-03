@@ -26,13 +26,9 @@ Each k-bucket is kept sorted by time last seen----least-recently seen node at th
 
 the most important procedure a Kademlia participant must perform is to locate the `k` closest nodes to some given node ID, we call this procedure a *node lookup*.
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png)
-
-
-
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" width="1047px" height="682px">
 
-<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" style="zoom:100%" />
+
 
 ## S/Kademlia
 

@@ -32,7 +32,7 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" width="1047px" height="682px">
 
-<img src=“https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png” style=“width:1047px height:300px” />
+<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" style="zoom:100%" />
 
 ## S/Kademlia
 

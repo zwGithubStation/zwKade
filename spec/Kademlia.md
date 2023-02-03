@@ -339,6 +339,8 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png)
 
+<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png" width="1047px" height="682px">
+
 我们将最终应该获取的节点ID记为id<sub>global</sub> ，我们可以证明：
 
 在“寻址策略”中的任何一次查询节点过程(假设向节点c发起了查询，请求c查询离目标数据项距离最近的节点ID)中，节点c返回的下一层查询节点ID(标记为id<sub>close</sub>)**满足如下性质**：

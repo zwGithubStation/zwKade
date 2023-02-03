@@ -66,6 +66,12 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 如果一个节点`u`要**加入网络**，那它至少要知道一个已经存在于网络中的节点`w`。`u` 将 `w` 的信息加入自己相应的某一层bucket中，然后执行`FIND_NODE(u.ID)` 。最终`u` 将会更新自己的各级bucket。在 `u` 进行信息扩充时， 其他节点的k-bucket也在必要的情形下记录了节点 `u` 的存在。
 
+Efficient key re-publishing
+
+Prove
+
+improve preformance
+
 ## S/Kademlia
 
 Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure key-based routing S / Kademlia : A Practicable Approach Towards Secure Key-Based Routing.** June, 2014 

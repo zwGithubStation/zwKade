@@ -114,7 +114,7 @@ DHT 算法是这样规定的：如果一个文件计算出一个哈希值，则I
 
 什么叫和哈希值接近呢？例如只修改了最后一位，就很接近；修改了倒数 2 位，也不远；修改了倒数 3 位，也可以接受。总之，凑齐了规定的 N 这个数就行。
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/DHTNet.webp)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/DHTNet.webp)
 
 如上图，文件 1 通过哈希运算，得到匹配 ID 的 DHT node 为 node C，当然还会有其他的，我这里没有画出来。所以，node C 有责任知道文件 1 的存放地址，虽然 node C 本身没有存放文件 1。同理，文件 2 通过哈希运算，得到匹配 ID 的 DHT node 为 node E，但是 node D 和 E 的 ID 值很近，所以 node D 也知道。当然，文件 2 本身没有必要一定在 node D 和 E 里，但是碰巧这里就在 E 那有一份。
 
@@ -144,7 +144,7 @@ DHT 算法是这样规定的：如果一个文件计算出一个哈希值，则I
 
   更清晰的一种表述来说，整个网络空间可以被表示成一颗二叉树(**节点路由树**)，而网络中的节点都被当作二叉树的叶子，并且每一个节点的位置都由其 ID 值的最短前缀唯一的确定，如下图：
 
-  ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binaryTree.png)
+  ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/binaryTree.png)
 
   - 节点路由树的构造：
     1. 节点ID由二进制表示，从高到低每一位依次进行第2步操作
@@ -177,7 +177,7 @@ DHT 网络的朋友圈也是一样，远近都有，并且按距离分层。假�
 
 再请求 C，在它自己的通讯录里，按同样的查找方式找一下 B。如果 C 知道 B，就告诉 A；如果 C 也不知道 B，那 C 按同样的搜索方法，可以在自己的通讯录里找到一个离 B 更近的 D 朋友（D、B 之间距离小于 2^3），把 D 推荐给 A，A 请求 D 进行下一步查找。
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binarySearchInKademlia.webp)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/binarySearchInKademlia.webp)
 
 Kademlia 的这种查询机制，是通过**折半查找**的方式来收缩范围，**对于总的节点数目为 N，最多只需要查询 log2(N) 次，就能够找到**。
 
@@ -259,7 +259,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 我们关注的是一个二叉前缀树(Trie,前缀树/字典树)上的分区。
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/binaryTree1.png)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/binaryTree1.png)
 
 在上面一棵高度为3的二叉树中，画圈的叶子节点用来代表节点ID。**我们可以说所有的节点ID和数据项的key值都要从[0,1,...2<sup>3</sup>-1]这个范围内选取(二进制形式)。使用完全二叉树的形式可以在叶子节点看到所有的可选值**。上图中，000,110,111代表三个节点ID。
 
@@ -337,7 +337,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 1. **路由表中的寻址信息都是正确合法的**
 2. **如果当前节点的每层k-bucket的范围内真实存在节点，该层k-bucket至少包含一个节点信息(k-bucket的构造如下图所示)**
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucketExamples.png)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png)
 
 我们将最终应该获取的节点ID记为id<sub>global</sub> ，我们可以证明：
 
@@ -345,7 +345,7 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 **对于节点c来说，如果id<sub>global</sub>也在c的某层k-bucket内，则该k-bucket就是id<sub>close</sub>所在的k-bucket**。
 
-![Image text](https://github.com/zwGithubStation/zwKade/blob/main/pic/k-bucket-prove.png)
+![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucket-prove.png)
 
 证明很简单，**鉴于我们的算法设定：**
 

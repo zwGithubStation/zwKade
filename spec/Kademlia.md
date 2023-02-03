@@ -339,7 +339,9 @@ DHT就是一个存储在多计算机上的系统，其目标就是解决这种�
 
 ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png)
 
-<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png" width="1047px" height="682px">
+
+
+<img src=“https://github.com/zwGithubStation/zwKade/blob/main/img-folder/k-bucketExamples.png” style=“width:1047px height:682px” />
 
 我们将最终应该获取的节点ID记为id<sub>global</sub> ，我们可以证明：
 

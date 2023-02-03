@@ -26,13 +26,34 @@ Each k-bucket is kept sorted by time last seen----least-recently seen node at th
 
 the most important procedure a Kademlia participant must perform is to locate the `k` closest nodes to some given node ID, we call this procedure a *node lookup*.
 
+*node lookup*的流程梳理，主要通过几个图来体现。
+
+我们的场景是：当前节点有自己的节点ID，有自己的k-bucket，有自己的并发发送窗口。在收到一个`FIND_NODE(ID)` 请求后，需要通过自己的处理，向请求方返回k个节点信息，这k个节点是当前节点尽力所能找到的距离目标节点最近的k个节点。见下图：
+
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" width="1047px" height="682px">
+
+首先，执行node lookup的节点从自己的k-bucket中选取出距离目标节点最近的 `α` 个节点，通过并行窗口向这些节点发送`FIND_NODE(ID)` 请求。见下图：
 
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_2.png" width="1047px" height="719px">
 
+发送会出现各种结果。
+
+如果向节点`C`发送的`FIND_NODE(ID)`请求得到了响应(收到了k个节点信息)，我们会更新当前的FIND_NODE结果集合 `R` 。将最近的k个节点保留至 `R` 中，同时标记 `R` 中各个节点是否已成功访问过。这隐含着如下的设定：
+
+- 已经标记访问成功的节点也可能因为不再排前k个而被踢出 `R`
+- 在 `R` 中的未标记访问节点，可能因为对其访问失败(超时或返回失败) 而被踢出 `R`
+- 超时后也可能收到迟来的`FIND_NODE(ID)` 响应，也正常处理
+- 并不需要全部 `α` 个请求都返回才触发 `R` 的更新，每一个`FIND_NODE(ID)` 相应都可以触发
+
+各种情况可以详见下图：
+
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_3.png" width="1047px" height="719px">
 
+最终这一递归式的查询最终成功的条件是：当前看到的前k近的节点，都已经成功得到了它们的 `FIND_NODE(ID)` 响应。这时我们将这k个节点的信息返回，针对本节点的 `FIND_NODE(ID)` 成功。详见下图： 
+
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_4.png" width="1047px" height="719px">
+
+
 
 ## S/Kademlia
 
@@ -65,5 +86,4 @@ bittorrent spec：
 - DHT Protocol
 
   http://bittorrent.org/beps/bep_0005.html
-
 

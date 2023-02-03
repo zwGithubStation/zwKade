@@ -53,7 +53,11 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_4.png" width="1047px" height="719px">
 
+其他RPC操作的内部流程都与 `FIND_NODE` 的流程有着类似的思想：
 
+- 在节点上执行`STORE(key, value)` 操作，节点也会先找到k个距离key值最近的节点，向它们发送`STORE(key, value)` RPC。此外，这些节点还会按照同样的方式再次发出 `STORE(key, value)` RPC, 来保证数据在网络中的持久化。
+- 鉴于Kademlia多用于**文件共享**，协议要求数据项的发布者应该每24小时重发一次数据，因为数据集超过24小时就会过期，来维持网络上没有太多冗余陈旧数据。对于诸如数字证书或者加密哈希的场景，则可以设置更长的数据过期阈值。
+- `FIND_VALUE(key)` 是与 `FIND_NODE` 近似的操作，如果当前节点不保有key所对应数据，它就会找距离key前k近的节点。但这一过程并不使用`FIND_NODE(key)` 而是 `FIND_VALUE(key)`，该操作在某一个节点返回key值所对应的数据时立即结束并返回数据。
 
 ## S/Kademlia
 

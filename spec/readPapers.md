@@ -28,7 +28,7 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 <img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_1.png" width="1047px" height="682px">
 
-
+<img src="https://github.com/zwGithubStation/zwKade/blob/main/img-folder/find_node_2.png" width="1047px" height="719px">
 
 ## S/Kademlia
 

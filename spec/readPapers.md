@@ -4,7 +4,7 @@
 
 ## Kademlia
 
-[Petar Maymounkov](https://pdos.csail.mit.edu/~petar/) & [David Mazières][https://www.scs.stanford.edu/~dm] . **Kademlia: A Peer-to-Peer Information System Based on the XOR Metric**. Oct, 2002
+[Petar Maymounkov](https://pdos.csail.mit.edu/~petar/) & [David Mazières](https://www.scs.stanford.edu/~dm). **Kademlia: A Peer-to-Peer Information System Based on the XOR Metric**. Oct, 2002
 
 
 

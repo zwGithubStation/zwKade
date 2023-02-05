@@ -4,7 +4,11 @@
 
 ## Kademlia
 
+### 论文摘录备忘
+
 [Petar Maymounkov](https://pdos.csail.mit.edu/~petar/) & [David Mazières](https://www.scs.stanford.edu/~dm). **Kademlia: A Peer-to-Peer Information System Based on the XOR Metric**. Oct, 2002
+
+
 
 The Kademlia protocol ensures that every node knows of at least one node in each of its subtrees, if that subtree contains a node. With this guarantee, any node can locate any other node by its ID. 
 
@@ -25,6 +29,8 @@ Each k-bucket is kept sorted by time last seen----least-recently seen node at th
 `FIND_VALUE` behaves like `FIND_NODE`, returning `<IP address, UDP port, Node ID>` triples--- with one exception. If the RPC recipient has received a `STORE` PRC for the key, it just returns the stored value.
 
 the most important procedure a Kademlia participant must perform is to locate the `k` closest nodes to some given node ID, we call this procedure a *node lookup*.
+
+### lookup流程详解
 
 *node lookup*的流程梳理，主要通过几个图来体现。
 
@@ -58,19 +64,25 @@ the most important procedure a Kademlia participant must perform is to locate th
 - 在节点上执行`STORE(key, value)` 操作，节点也会先找到k个距离key值最近的节点，向它们发送`STORE(key, value)` RPC。此外，这些节点还会按照同样的方式再次发出 `STORE(key, value)` RPC, 来保证数据在网络中的持久化。
 - `FIND_VALUE(key)` 是与 `FIND_NODE` 近似的操作，如果当前节点不保有key所对应数据，它就会找距离key前k近的节点。但这一过程并不使用`FIND_NODE(key)` 而是 `FIND_VALUE(key)`，该操作在某一个节点返回key值所对应的数据时立即结束并返回数据。
 
+### 优化点
+
+#### 数据缓存策略
+
 为了有效**缓存**的目的，当一个`FIND_VALUE(key)` 成功后，`FIND_VALUE(key)` 的发起节点会请求把`<key,value>` 数据项存储在距离key值最近的节点上(该节点显然不是value所在的节点)。因为Kademlia的拓扑结构具有线路上的单向性(unidirectionality)，使用这种cache可以加速 `FIND_VALUE(key)`。但如果一个key被访问太过频繁，最终可能导致太多的节点存有一份该数据。为了避免这种"过量缓存"，我们对于任意节点 `N` 上存储的 `<key,value>` 有一个过期值设定：距离key值最近的节点为 `K` ，**`N` 上存储的 `<key,value>` 的过期值 应该与 `K` 和 `N` 之间的节点数目 存在指数级反比例的关系**(距离越近，过期值越长，反之越短)。
 
 鉴于Kademlia多用于**文件共享**，协议要求数据项的发布者应该每24小时重发一次数据，因为数据集超过24小时就会过期，来维持网络上没有太多冗余陈旧数据。对于诸如数字证书或者加密哈希的场景，则可以设置更长的数据过期阈值。
 
 节点间频繁的请求流转通常可以让bucket保持有效的更新，但如果某一ID区间的节点没有接收过什么访问，我们也要有定期的bucket信息有效性检测：如果某一bucket一小时内都没有发生过*Node lookup*，就需要对该bucket进行刷新(refresh)操作，该操作会在bucket中随机选取一个节点ID，**执行FIND_NODE(ID)操作**。
 
+#### 加入网路
+
 如果一个节点`u`要**加入网络**，那它至少要知道一个已经存在于网络中的节点`w`。`u` 将 `w` 的信息加入自己相应的某一层bucket中，然后执行`FIND_NODE(u.ID)` 。最终`u` 将会更新自己的各级bucket。在 `u` 进行信息扩充时， 其他节点的k-bucket也在必要的情形下记录了节点 `u` 的存在。
 
-Efficient key re-publishing
+#### Efficient key re-publishing
 
-Prove
+### Prove
 
-improve preformance
+### improve preformance
 
 ## S/Kademlia
 

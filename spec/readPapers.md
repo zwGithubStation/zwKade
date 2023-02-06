@@ -156,6 +156,8 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 1. 限制节点随机生成nodeId的权限
 2. 限制节点影响其他节点路由表的能力
 
+因为Kademlia的路由表更新策略倾向于保留在网络中留存时间更长的节点，所以第2点天然就有较强的支持。
+
 ##### 女巫攻击(Sybil attack)
 
 ##### 抖动攻击(Churn attack)

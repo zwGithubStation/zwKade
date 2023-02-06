@@ -78,11 +78,58 @@ the most important procedure a Kademlia participant must perform is to locate th
 
 如果一个节点`u`要**加入网络**，那它至少要知道一个已经存在于网络中的节点`w`。`u` 将 `w` 的信息加入自己相应的某一层bucket中，然后执行`FIND_NODE(u.ID)` 。最终`u` 将会更新自己的各级bucket。在 `u` 进行信息扩充时， 其他节点的k-bucket也在必要的情形下记录了节点 `u` 的存在。
 
-#### Efficient key re-publishing
+#### 高效的数据项重发策略
 
-### Prove
+为了确保`<key, value>` 数据项的持久化(persistence), 节点必须周期性的重新发布数据(republish keys)。否则，在两种情况下，可能会发生*lookup*操作的失败：
 
-### improve preformance
+- 节点发布数据时，作为其`STORE` 指令目标的最初`k` 个节点，它们都存在离开网络的可能
+- 新进入网络的节点，其节点ID与一些已经持久化的数据项key值的距离，可能相较于之前发布这些数据项的节点更加近
+
+这都要求数据项的再次发布，以最大化满足**当前距离该数据项最近的k个节点上都保有该数据项。**
+
+##### 策略1：周期性FIND_NODE(key)然后重新发布
+
+针对可能的节点离网情况，Kademlia要求每一小时重新发布一次`<key, value>` 。最简单的实现可能会造成大量不必要的转发：
+
+- `<key, value>` 可能存在于k个节点上， 每个节点周期性发送 `STORE(key, value)` 操作给当前其测算的离 `<key, value>` 最近的k-1个节点，形成k<sup>2</sup>规模的消息量，但实际要维护的最近的节点规模量级应该总是k个(没有大范围新节点入网的情况下)
+
+- 下一小时要进行重新发布的节点规模可能大于k，k<sup>2</sup> 转发规模会相应的平方级增大
+
+针对此的一个优化是，收到`STORE(key, value)` 的节点默认周围的k-1个节点也收到了重新发布的STORE消息，其在下一个小时内不会再做重发。
+
+##### 策略2：周期性更新k-bucket，直接使用k-bucket进行重新发布
+
+将策略1所需的针对各个key的`FIND_NODE` 操作，分摊至周期性的k-bucket更新上，每次的重新发布，都直接信任当前的k-bucket信息，直接在k-bucket种选取离key值前k近的节点进行`STORE` 发布。
+
+##### 其他优化
+
+为避免大量冗余的 `STORE(key, value)` 操作，`STORE` 操作可以有趋近性，也即一个节点 `X` 只有在如下的情况下，才会将 `STORE(key, value)` 操作发给节点 `Y` :
+
+Distance(Y, key) > Distance(X, key)
+
+### 算法证明
+
+略，见论文文本。
+
+### 系统优化
+
+#### buckt更新策略优化
+
+因为每个bucket容量有限，我们希望有效的LRU检查和淘汰策略，保证bucket信息的有效性。
+
+针对bucket已满，有新的候选节点出现时的替换策略，Kademlia倾向于在需要给这些新节点发送消息时再进行替换核对。
+
+当bucket已满且有新的节点 `Y` 向当前节点 `X` 发送消息时，`Y` 的信息先暂存在一个**缓存**中；当 `X` 针对bucket中的节点发起诸如 `FIND_NODE` 的请求时，**无响应(unresponsive)**的节点就可以被缓存中的新节点替换。缓存中的节点按照存储时间由近至远的顺序给与优先级，优先级高的先可以被替换至bucket中。
+
+因为Kademlia使用UDP传输数据，**无响应**很可能意味着网络阻塞丢包，因此为避免网络**指数级增加退让间隔(exponentially increasing backoff interval)**, 不向无响应的节点再次发送其他的RPC请求(鉴于*lookup*操作只要有一个节点返回结果就可以继续进行，这样的停止发送也是可以接受的)。
+
+当bucket中的节点连续5次无响应，可以被视为**失效(stale)**。当k-bucket没有满或者缓存为空时，Kademlia仅仅标记该节点为失效，而不是直接移除出bucket。
+
+#### lookup操作加速
+
+为了减少 *lookup* 操作可能的“**跳数**”(ID为160-bit 范围的整数值，每次lookup至少确认1bit的信息，期望跳数规模为**log<sub>2</sub>n**)规模，需要增加每次查找路由表的大小。我们期望通过将原有的k-bucket进行**每b个bucket合并为一个bucket**，将跳数规模由**log<sub>2</sub>n**缩减至**log<sub>2<sup>b</sup></sub>n**。
+
+基于XOR操作的k-bucket划分，**在b>1时仍保有原来的划分策略，不引入额外的复杂度**，这是Kademlia相较于其他路由算法的优势之处。
 
 ## S/Kademlia
 

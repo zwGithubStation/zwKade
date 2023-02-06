@@ -137,6 +137,18 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 
 
+### 攻击类型
+
+### 主要设计
+
+#### Secure nodeId assignment
+
+#### Reliable sibling broadcast
+
+#### Routing table maintainance
+
+
+
 ## Coral
 
 Freedman, M. J., & Mazières, D. **Sloppy Hashing and Self-Organizing Clusters.** 2003

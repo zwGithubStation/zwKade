@@ -151,13 +151,16 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 ##### 日蚀攻击(Eclipse attack)
 
+通过在网络中放置恶意节点，导致若干节点被其劫持，无法正常运行。在Kademlia中路由寻址可能频繁经过一些节点，这些节点如果被攻击，攻击者就相当于控制了网络中的一部分区域。两种途径避免之：
+
+1. 限制节点随机生成nodeId的权限
+2. 限制节点影响其他节点路由表的能力
+
 ##### 女巫攻击(Sybil attack)
 
 ##### 抖动攻击(Churn attack)
 
 ##### 恶性路由(Adversarial routing)
-
-
 
 #### 其他类型攻击
 

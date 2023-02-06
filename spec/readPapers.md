@@ -160,9 +160,15 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 ##### 女巫攻击(Sybil attack)
 
+攻击者可以控制一大批节点进入网络，由此控制网络的一部分区域。在去中心化的P2P网络中，这种攻击不能完全消除，只能尽力避免(can not be prevented but only impeded)。一般需要节点“支付”一定的资源(带宽/CPU算力等)来认证进入网络。
+
 ##### 抖动攻击(Churn attack)
 
+拥有一批节点的攻击者可以通过在网络中产生较大的波动来造成网络不稳定。仍是因为Kademlia的路由表更新策略倾向于保留在网络中留存时间更长的节点的缘故，这种攻击并不能造成很大影响。
+
 ##### 恶性路由(Adversarial routing)
+
+
 
 #### 其他类型攻击
 

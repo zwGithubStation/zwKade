@@ -147,6 +147,8 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 #### Routing table maintainance
 
+#### Lookup over disjoint paths
+
 
 
 ## Coral

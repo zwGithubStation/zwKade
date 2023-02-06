@@ -143,9 +143,21 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 一般假设底层网络对于运行在其上的数据传输(overlay layer)不提供任何的安全防护措施。
 
-攻击者可以获取并修改(overhear or modify)数据包(arbitrary data packages)。此外我们
+攻击者可以获取并修改(overhear or modify)数据包(arbitrary data packages)。此外某些节点可以假造IP地址(spoof IP address)，数据包本身的可信度也存疑.
+
+针对底层网络的攻击可以造成运行在其上的服务失效(denial of service)。
 
 #### 针对信息路由的攻击
+
+日蚀攻击(Eclipse attack)
+
+女巫攻击(Sybil attack)
+
+抖动攻击(Churn attack)
+
+恶性路由(Adversarial routing)
+
+
 
 #### 其他类型攻击
 

@@ -141,7 +141,9 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 #### 针对底层网路(underlying network)的攻击
 
+一般假设底层网络对于运行在其上的数据传输(overlay layer)不提供任何的安全防护措施。
 
+攻击者可以获取并修改(overhear or modify)数据包(arbitrary data packages)。此外我们
 
 #### 针对信息路由的攻击
 

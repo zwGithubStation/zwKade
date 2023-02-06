@@ -139,6 +139,14 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 ### 攻击类型
 
+#### 针对底层网路(underlying network)的攻击
+
+
+
+#### 针对信息路由的攻击
+
+#### 其他类型攻击
+
 ### 主要设计
 
 #### Secure nodeId assignment

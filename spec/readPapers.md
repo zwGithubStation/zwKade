@@ -202,7 +202,10 @@ Those two signature types can authenticate nodes and ensure integrity of message
 We now need to impede the Sybil and Eclipse attack. This is done by either using a crypto puzzle or a signature from a central certificate authority, so we need to combine the signature types above with one of the following:
 
 - ***Supervised signature***: If a signature’s public key additionally is signed by a trustworthy certificate authority, this signature is called **supervised signature**. This signature is needed to impede a Sybil attack in the network’s bootstrapping phase where only a few nodes exist in the network. A network size estimation can be used to decide if this signature is needed.
+
 - ***Crypto puzzle signature***: In the absence of a trustworthy authority we need to impede the Eclipse and Sybil attack with a **crypto puzzle**. In [3]\(*Secure routing for structured peer-to-peer overlay networks.*\) the use of crypto puzzles for nodeId generation is rejected because they cannot be used to entirely prevent an attack. But in our opinion they are the most effective approach for distributed nodeId generation in an completely decentralised environment without trustworthy authority and should therefore be used to make an attack as hard as possible in such networks.
+
+  For this reason we introduce two crypto puzzles as shown below. A static puzzle that impedes that the nodeId can be chosen freely and a dynamic puzzle that ensures that it is complex to generate a huge amount of nodeIds. H denotes a cryptographically secure hash function, ⊕ is the XOR operation, and the **c<sub>1</sub>** denote **crypto puzzle complexity**. **It is obvious that an increase of c<sub>1 </sub>decreases the space of possible public keys therefore the size of the public key must be increased subsequently**. **c<sub>1</sub>** is considered as a **constant**. Once the nodeId has been generated it stays fixed for a certain value. **c<sub>2</sub>** can be modified or extended over time when computational resources become cheaper.
 
 #### Reliable sibling broadcast
 

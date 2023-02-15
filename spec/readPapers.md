@@ -221,7 +221,20 @@ In this paper we want to consider this number of nodes independently from the bu
 
 A common security problem is the reliability of sibling information which arises when replicated information needs to be stored in the DHT which uses **a majority decision** to compensate for adversarial nodes. (**a majority decision** 可以帮助提高siblings的信息可靠性)
 
-Since Kademlia’s original protocol converges to a list of siblings, it is complicated to analyze and prove the coherency(一致性) of sibling information. For this reason we introduce a sibling list of size η · s per node, which ensures that each node knows at least s siblings to a ID within the nodes’ siblings range with high probability. We now have to determine η and prove that the constraints hold with high probability. This has already been done by Gai and Viennot in their paper about the Broose DHT [10] where a brotherhood list is constructed in the same way. Since this proof unnecessarily uses Chernoff
+Since Kademlia’s original protocol converges to a list of siblings, it is complicated to analyze and prove the coherency(一致性) of sibling information. 
+
+For this reason we introduce a sibling list of size ***η · s*** per node, which **ensures that each node knows at least *s* siblings to a ID within the nodes’ siblings range with high probability**. We now have to determine ***η*** and prove that the constraints hold with high probability. This has already been done by Gai and Viennot in their paper about the Broose DHT [*Broose: a practical distributed hashtable based on the de-bruijn topology, 2004*] where a brotherhood list is constructed in the same way. 
+
+The following probabilities depending on ***c*** and ***s*** with an upper bound network size of ***N = 10<sup>10</sup>*** can be computed as shown below.
+
+|              | ***c*** = 1.5            | ***c*** = 2.0            | ***c*** = 2.5            | ***c*** = 3.0             |
+| ------------ | ------------------------ | ------------------------ | ------------------------ | ------------------------- |
+| ***s*** = 8  | 0.8950 * 10<sup>-1</sup> | 1.0000 * 10<sup>-2</sup> | 0.7786 * 10<sup>-3</sup> | 0.4750 * 10<sup>-4</sup>  |
+| ***s*** = 16 | 0.3440 * 10<sup>-1</sup> | 0.6600 * 10<sup>-3</sup> | 0.5464 * 10<sup>-5</sup> | 0.2590 * 10<sup>-7</sup>  |
+| ***s*** = 20 | 0.2187 * 10<sup>-1</sup> | 0.1763 * 10<sup>-3</sup> | 0.4791 * 10<sup>-6</sup> | 0.6352 * 10<sup>-9</sup>  |
+| ***s*** = 32 | 0.5925 * 10<sup>-2</sup> | 0.3617 * 10<sup>-5</sup> | 0.3506 * 10<sup>-9</sup> | 0.1022 * 10<sup>-13</sup> |
+
+
 
 #### Routing table maintainance
 

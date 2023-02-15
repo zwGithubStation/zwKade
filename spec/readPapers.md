@@ -168,13 +168,41 @@ Baumgart, I., & Mies, S. **S/Kademlia : A practicable approach towards secure ke
 
 ##### 恶性路由(Adversarial routing)
 
+Since a node is simply removed from a routing table when it neither responds with routing information nor routes any packet, the only way of influencing the networks’ routing is to return adversarial routing information. For example an adversarial node might just return other collaborating nodes which are closer to the queried key. This way an adversarial node routes a packet into its subnet of collaborators and neither the queried nor the closest node for a given key would be found. **This can be prevented by using a lookup algorithm that considers multiple disjoint paths**. The lookup succeeds when one path is free of adversarial nodes.  
 
+With regard to a moderate number of adversarial nodes, lookup algorithms can significantly benefit from **disjoint paths **as well as **a low average path length**.
 
 #### 其他类型攻击
 
+##### Denial-of-Service
+
+A adversarial may try to suborn(唆使) a victim to consume all its resources, i.e. memory, bandwidth, computational power. Thus the protocol needs to have mechanisms to allocate resources in a secure way. Physical attacks, such as jamming or side-band attacks are not considered in this paper.
+
+##### Attacks on data storage
+
+Key-based routing protocols are commonly used as building blocks to realize a distributed hash table (DHT) for data storage. To make it more difficult for adversarial nodes to modify stored data items, the same data item is **replicated** on a number of neighboring nodes. Although attacks on data storage are not regarded in this paper, the key-based routing layer has to provide a secure neighborhood to a given key.
+
 ### 主要设计
 
-#### Secure nodeId assignment
+#### Secure nodeId assignment(节点ID的生成)
+
+It should be hard for an attacker to generate a large number of nodeIds (Sybil attack) nor choose the nodeId freely (Eclipse attack). Furthermore **the nodeId should authenticate a node, i.e. no other node should be able to steal or fake the nodeId**. 
+
+The latter[fake] can be achieved with one of the two methods: **Using a hash value over IP address and port** or by **hashing a public key**. 
+
+The first solution has a significant **drawback** because with dynamically allocated IP addresses the nodeId will change subsequently. It is also not suitable to limit the number of generated nodeIds if you want to support networks with **NAT** in which several nodes appear to have the same public IP address. Finally there is no way of ensuring **integrity** of exchanged messages with those kind of nodeIds. 
+
+This is why we advocate to use the hash over a public key to generate the nodeId. With this public key it is possible to sign messages exchanged by nodes. **Due to computational overhead** we differentiate between two **signature types**:
+
+- ***Weak signature***: The weak signature does not sign the whole message. It is limited to **IP address, port and a timestamp**. The timestamp specifies how long the signature is valid. This prevents replay attacks if dynamic IP addresses are used. For synchronization issues the timestamp may be chosen in a very coarsegrained way. **The weak signature is primarily used in `FIND NODE` and `PING` messages where the integrity of the whole message is dispensable**.
+- ***Strong signature***: The strong signature signs the full content of a message. This ensures integrity of the message and resilience against Man-in-the-Middle attacks(中间人攻击). Replay attacks(重放攻击) can be prevented with **nonces**(新鲜值) inside the RPC messages.
+
+Those two signature types can authenticate nodes and ensure integrity of messages. 
+
+We now need to impede the Sybil and Eclipse attack. This is done by either using a crypto puzzle or a signature from a central certificate authority, so we need to combine the signature types above with one of the following:
+
+- ***Supervised signature***: If a signature’s public key additionally is signed by a trustworthy certificate authority, this signature is called **supervised signature**. This signature is needed to impede a Sybil attack in the network’s bootstrapping phase where only a few nodes exist in the network. A network size estimation can be used to decide if this signature is needed.
+- ***Crypto puzzle signature***: In the absence of a trustworthy authority we need to impede the Eclipse and Sybil attack with a crypto puzzle. In [3] the use of crypto puzzles for nodeId generation is rejected because they cannot be used to entirely prevent an attack. But in our opinion they are the most effective approach for distributed nodeId generation in an completely decentralised environment without trustworthy authority and should therefore be used to make an attack as hard as possible in such networks.
 
 #### Reliable sibling broadcast
 

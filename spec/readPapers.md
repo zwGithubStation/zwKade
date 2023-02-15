@@ -207,6 +207,10 @@ We now need to impede the Sybil and Eclipse attack. This is done by either using
 
   For this reason we introduce two crypto puzzles as shown below. A static puzzle that impedes that the nodeId can be chosen freely and a dynamic puzzle that ensures that it is complex to generate a huge amount of nodeIds. H denotes a cryptographically secure hash function, ⊕ is the XOR operation, and the **c<sub>1</sub>** denote **crypto puzzle complexity**. **It is obvious that an increase of c<sub>1 </sub>decreases the space of possible public keys therefore the size of the public key must be increased subsequently**. **c<sub>1</sub>** is considered as a **constant**. Once the nodeId has been generated it stays fixed for a certain value. **c<sub>2</sub>** can be modified or extended over time when computational resources become cheaper.
 
+  ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/SK_cryptoPuzzle.png)
+
+  
+
 #### Reliable sibling broadcast
 
 #### Routing table maintainance

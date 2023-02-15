@@ -225,7 +225,7 @@ Since Kademlia’s original protocol converges to a list of siblings, it is comp
 
 For this reason we introduce a sibling list of size ***η · s*** per node, which **ensures that each node knows at least *s* siblings to a ID within the nodes’ siblings range with high probability**. We now have to determine ***η*** and prove that the constraints hold with high probability. This has already been done by Gai and Viennot in their paper about the Broose DHT [*Broose: a practical distributed hashtable based on the de-bruijn topology, 2004*] where a brotherhood list is constructed in the same way. 
 
-The following probabilities depending on ***c*** and ***s*** with an upper bound network size of ***N = 10<sup>10</sup>*** can be computed as shown below.
+The following probabilities(***Probability for an incomplete sibling list***) depending on ***c*** and ***s*** with an upper bound network size of ***N = 10<sup>10</sup>*** can be computed as shown below.
 
 |              | ***c*** = 1.5            | ***c*** = 2.0            | ***c*** = 2.5            | ***c*** = 3.0             |
 | ------------ | ------------------------ | ------------------------ | ------------------------ | ------------------------- |
@@ -236,13 +236,29 @@ The following probabilities depending on ***c*** and ***s*** with an upper bound
 
 The interesting fact is that it is shown that a value ***η ≥ (2·c) ≥ 5*** is sufficient to satisfy our needed constraints w.h.p.(with high probability)
 
-Thus in S/Kademlia the routing table consists of a list of ***n*** k-buckets holding nodes with a distance ***d*** with ***2<sup>i−1</sup> ≤ d < 2<sup>i</sup> , 0 ≤ i ≤ n*** and a sorted list of siblings of size ***η · s***. Because routing tables in Kademlia are implicitly refreshed by incoming lookup requests and many of the nodes in our sibling table would otherwise have to be stored in Kademlia’s k-buckets, the additional communication overhead for maintaining the sibling table is low.
+Thus in S/Kademlia the routing table consists of a list of ***n*** k-buckets holding nodes with a distance ***d*** with ***2<sup>i−1</sup> ≤ d < 2<sup>i</sup> , 0 ≤ i ≤ n*** and **a sorted list of siblings** of size ***η · s***. 
+
+Because routing tables in Kademlia are implicitly refreshed by incoming lookup requests and many of the nodes in our sibling table would otherwise have to be stored in Kademlia’s k-buckets, the additional communication overhead for maintaining the **sibling table** is low.
 
 #### Routing table maintainance
 
+Kademlia uses a **reactive approach** to maintain routing tables. Since the XOR metric ensures that all **iterative(反复的) lookups converge along the same path**, Kademlia can learn about the existence of new nodes from incoming RPCs. 
+
+To secure routing table maintenance in S/Kademlia we categorize signaling messages to the following classes: **Incoming signed RPC requests, responses** or **unsigned messages**. Each of those messages contains the sender address. If the message is weakly or strong signed, this address can not be forged or associated with another nodeId. We call the sender address valid if the message is signed and **actively valid**, if the sender address is valid and comes from a RPC response. Kademlia uses those sender addresses to maintain their routing tables. Actively valid sender addresses are immediately added to their corresponding bucket, when it is not full. Valid sender addresses are only added to a bucket if the nodeId prefix differs in an appropriate amount of bits χ (for example χ > 32). This is necessary because an attacker can easily generate nodeIds that share a prefix with the victims nodeId and flood his buckets, **because buckets close to the own nodeId are only sparsely filled in Kademlia**. Sender addresses that came from unsigned messages will be ignored. If a message contains more information about other nodes, then each of them can be added by invoking a ping RPC on them. If a node already exists in the routing table it is moved at the tail of the bucket.
+
 #### Lookup over disjoint paths
 
+We have shown the importance of using multiple disjoint paths to lookup keys in a network with adversarial nodes. The original Kademlia lookup iteratively queries α nodes with a FIND NODE RPC for the closest k nodes to the destination key. α is a system-wide redundancy parameter such as 2. In each step the returned nodes from previous RPCs are merged into a sorted list from which the next α nodes are picked. 
 
+A major drawback of this approach is, that **the lookup fails as soon as a single adversarial node is queried**. We extended this algorithm to use ***d*** disjoint paths and thus increase the lookup success ratio in a network with adversarial nodes. 
+
+The initiator starts a lookup by taking the k closest nodes to the destination key from his local routing table and distributes them into ***d*** independent lookup buckets. From there on the node continues with ***d*** parallel lookups similar to the traditional Kademlia lookup. The lookups are independent, except the important fact, that each node is only used once during the whole lookup process to ensure that the resulting paths are really disjoint. By using the sibling list from last section the lookup doesn’t converge at a single node but terminates on ***d*** close-by neighbors, which all know the complete ***s*** siblings for the destination key. Hence a lookup is still successful even if ***k − 1*** of the neighbors are adversarial.
+
+### Conclusion
+
+We conclude that ***d = 4..8*** with a ***k = 8..16*** is a good choice for S/Kademlia. Higher values of ***d and k*** seem not worth the additional communication costs. Larger values for ***k*** would also increase the probability that a large fraction of buckets are not full for a long time. This unnecessarily makes the routing table more vulnerable to Eclipse attacks.
+
+Since we present simulations with ***N = 10000*** nodes only, one might argue that this is a rather small number of nodes and not comparable to huge networks. In fact the path length highly corelates with the fraction of successful lookups. On the other hand the network topology can be easily tuned to have a smaller diameter and therefore a shorter average path length. **This is usually done by considering multiple bits *b* of the nodeId in each step**. So the network can be tuned to the level of security needed in different scenarios.
 
 ## Coral
 

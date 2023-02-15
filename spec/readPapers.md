@@ -234,7 +234,9 @@ The following probabilities depending on ***c*** and ***s*** with an upper bound
 | ***s*** = 20 | 0.2187 * 10<sup>-1</sup> | 0.1763 * 10<sup>-3</sup> | 0.4791 * 10<sup>-6</sup> | 0.6352 * 10<sup>-9</sup>  |
 | ***s*** = 32 | 0.5925 * 10<sup>-2</sup> | 0.3617 * 10<sup>-5</sup> | 0.3506 * 10<sup>-9</sup> | 0.1022 * 10<sup>-13</sup> |
 
+The interesting fact is that it is shown that a value ***η ≥ (2·c) ≥ 5*** is sufficient to satisfy our needed constraints w.h.p.(with high probability)
 
+Thus in S/Kademlia the routing table consists of a list of ***n*** k-buckets holding nodes with a distance ***d*** with ***2<sup>i−1</sup> ≤ d < 2<sup>i</sup> , 0 ≤ i ≤ n*** and a sorted list of siblings of size ***η · s***. Because routing tables in Kademlia are implicitly refreshed by incoming lookup requests and many of the nodes in our sibling table would otherwise have to be stored in Kademlia’s k-buckets, the additional communication overhead for maintaining the sibling table is low.
 
 #### Routing table maintainance
 

@@ -209,9 +209,19 @@ We now need to impede the Sybil and Eclipse attack. This is done by either using
 
   ![Image text](https://github.com/zwGithubStation/zwKade/blob/main/img-folder/SK_cryptoPuzzle.png)
 
-  
+**If a node receives a signed message it can now first validate its signature and then check if the crypto puzzles were solved. Both operations have O(1) complexity for a constant public key size while crypto puzzle creation has O(2<sup>c1</sup> + 2<sup>c2</sup> ) complexity**.
 
 #### Reliable sibling broadcast
+
+***Siblings*** are nodes which are responsible for a certain key-value pair that needs to be stored in a DHT. 
+
+In the case of Kademlia those key-value pairs are replicated over the **k closest nodes** (we remember: k is the bucket size). 
+
+In this paper we want to consider this number of nodes independently from the bucket size k and introduce **the number of siblings** as a parameter `s`. This makes sense because the bucket size usually defines **the redundancy of overlay connectivity** and not **the number of replicas that need to be stored by the DHT**. 
+
+A common security problem is the reliability of sibling information which arises when replicated information needs to be stored in the DHT which uses **a majority decision** to compensate for adversarial nodes. (**a majority decision** 可以帮助提高siblings的信息可靠性)
+
+Since Kademlia’s original protocol converges to a list of siblings, it is complicated to analyze and prove the coherency(一致性) of sibling information. For this reason we introduce a sibling list of size η · s per node, which ensures that each node knows at least s siblings to a ID within the nodes’ siblings range with high probability. We now have to determine η and prove that the constraints hold with high probability. This has already been done by Gai and Viennot in their paper about the Broose DHT [10] where a brotherhood list is constructed in the same way. Since this proof unnecessarily uses Chernoff
 
 #### Routing table maintainance
 
